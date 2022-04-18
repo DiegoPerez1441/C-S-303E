@@ -15,6 +15,7 @@ class Texture(ABC):
 class Grass(Texture):
     INDEX = (25, 0)
     tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+    tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
 
     def __init__(self, x, y) -> None:
         # res = self.RESOLUTION[0] # CHECK THIS OUT LATER
@@ -22,20 +23,23 @@ class Grass(Texture):
         self.y = y
 
     def draw(self, surface):
-        # res = self.RESOLUTION[0]
         crop_start_x = Grass.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Grass.INDEX[1] * Texture.RESOLUTION[1]
 
+        # Original
         # surface.blit(self.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, res, res))
 
         # Draw texture onto a temporary surface
-        Grass.tmp_surface.blit(Texture.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+        Grass.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+
         # Scale tmp_surface and blit onto surface
-        surface.blit(pygame.transform.scale(Grass.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
+        # surface.blit(pygame.transform.scale(Grass.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
+        surface.blit(pygame.transform.scale(Grass.tmp_surface, Texture.SCALED_RESOLUTION), (self.x, self.y))
 
 class Dirt(Texture):
     INDEX = (21, 10)
     tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+    tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
 
     def __init__(self, x, y) -> None:
         # res = self.RESOLUTION[0] # CHECK THIS OUT LATER
@@ -43,33 +47,18 @@ class Dirt(Texture):
         self.y = y
 
     def draw(self, surface):
-        # res = self.RESOLUTION[0]
         crop_start_x = Dirt.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Dirt.INDEX[1] * Texture.RESOLUTION[1]
 
+        # Original
         # surface.blit(self.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, res, res))
 
         # Draw texture onto a temporary surface
-        Dirt.tmp_surface.blit(Texture.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+        Dirt.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+        
         # Scale tmp_surface and blit onto surface
-        surface.blit(pygame.transform.scale(Dirt.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
-
-        # surface.blit(Texture.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
-
-# class Dirt(Texture):
-#     INDEX = (21, 10)
-
-#     def __init__(self, x, y) -> None:
-#         res = self.RESOLUTION[0] # CHECK THIS OUT LATER
-#         self.x = x
-#         self.y = y
-
-#     def draw(self, surface):
-#         res = self.RESOLUTION[0]
-#         crop_start_x = self.INDEX[0] * res
-#         crop_start_y = self.INDEX[1] * res
-
-#         surface.blit(self.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, res, res))
+        # surface.blit(pygame.transform.scale(Dirt.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
+        surface.blit(pygame.transform.scale(Dirt.tmp_surface, Texture.SCALED_RESOLUTION), (self.x, self.y))
 
 class Floor():
     def __init__(self, length, depth, SCREEN_WIDTH, SCREEN_HEIGHT) -> None:
