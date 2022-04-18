@@ -24,9 +24,11 @@ DISPLAY_SURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 DISPLAY_SURF.fill(WHITE)
 pygame.display.set_caption("HW 8")
 
-ground = graphics.Floor(10, 2, SCREEN_WIDTH, SCREEN_HEIGHT)
-g = graphics.Grass(0, 0)
-d = graphics.Dirt(64, 0)
+ground = graphics.Floor(int(SCREEN_WIDTH/graphics.Texture.SCALED_RESOLUTION[0]), 2, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+# Testing
+# g = graphics.Grass(0, 0)
+# d = graphics.Dirt(64, 0)
 
 def main():
     while True:
@@ -37,11 +39,14 @@ def main():
                 sys.exit()
 
         DISPLAY_SURF.fill(WHITE)
+        
+        # Testing
+        # g.draw(DISPLAY_SURF)
+        # d.draw(DISPLAY_SURF)
 
         # Draw here
         ground.draw(DISPLAY_SURF)
-        g.draw(DISPLAY_SURF)
-        d.draw(DISPLAY_SURF)
+
 
         pygame.display.update()
         FRAME_PER_SEC.tick(FPS)
