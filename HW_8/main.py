@@ -16,6 +16,8 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+SKY_BLUE = (135, 206, 235)
+
 # Screen Information 16/9 aspect ratio
 SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
 SCREEN_HEIGHT = graphics.Texture.SCALED_RESOLUTION[1] * 9
@@ -38,7 +40,7 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-        DISPLAY_SURF.fill(WHITE)
+        DISPLAY_SURF.fill(SKY_BLUE)
         
         # Testing
         # g.draw(DISPLAY_SURF)
