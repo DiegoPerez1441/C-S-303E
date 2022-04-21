@@ -28,7 +28,8 @@ DISPLAY_SURF.fill(WHITE)
 pygame.display.set_caption("HW 8")
 
 def main():
-    ground = graphics.Floor(int(SCREEN_WIDTH/graphics.Texture.SCALED_RESOLUTION[0]), 2, SCREEN_WIDTH, SCREEN_HEIGHT)
+    # Add one extra block to the right to compensate for transformations
+    ground = graphics.Floor(int(SCREEN_WIDTH/graphics.Texture.SCALED_RESOLUTION[0] + 1), 2, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     # Testing
     # g = graphics.Grass(0, 0)
