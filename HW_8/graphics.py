@@ -67,6 +67,7 @@ class Floor():
 
         self.SCREEN_WIDTH = SCREEN_WIDTH
         self.SCREEN_HEIGHT = SCREEN_HEIGHT
+        self.top_layer_height = self.SCREEN_HEIGHT - (self.depth * Texture.SCALED_RESOLUTION[1])
 
         # Initialize 2D block_map array with Floor_Brick objects
         self.block_map = [[] for d in range(self.depth)]
