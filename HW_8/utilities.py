@@ -7,14 +7,28 @@ import graphics
 SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
 SCREEN_HEIGHT = graphics.Texture.SCALED_RESOLUTION[1] * 9
 
+COLORS = {
+    "red": (255, 0, 0),
+    "orange": (255, 127, 0),
+    "yellow": (255, 255, 0),
+    "green": (0, 255, 0),
+    "blue": (0, 0, 255),
+    "indigo": (75, 0, 130),
+    "violet": (148, 0, 211),
+    "white": (255, 255, 255),
+    "grey": (128, 128, 128),
+    "black": (0, 0, 0)
+}
+
 class Player:
-    def __init__(self, name, x, y) -> None:
+    def __init__(self, name, x, y, color) -> None:
         self.name = f"{name}"
         self.speed = randint(2, 10)
-        self.max_distance = uniform(500, 800)
+        self.max_distance = uniform(500, 1000)
 
         self.can_run = True
         self.size = 20
+        self.color = color
 
         self.x = x
         self.y = y - self.size
@@ -25,15 +39,15 @@ class Player:
         self.ty = self.y + self.y_offset
 
     def update(self, surface):
-        self.tx = self.x + self.x_offset
-        self.ty = self.y + self.y_offset
-
         if (self.can_run and self.x < self.max_distance):
             self.x += self.speed
         else:
             self.can_run = False
+        
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
             
-        pygame.draw.rect(surface, (255, 0, 0), (self.x, self.y, self.size, self.size))
+        pygame.draw.rect(surface, self.color, (self.x, self.y, self.size, self.size))
 
 class Race:
     def __init__(self, distance) -> None:
@@ -43,10 +57,9 @@ class Race:
         self.finished_index = []
         self.winner_index = None
 
-        self.fastest_racer_index = None
+        # self.fastest_racer_index = None
         self.x_view_offset = 0
-
-        self.x_view_offset_threshold = SCREEN_WIDTH * 0.7
+        self.x_view_offset_threshold = SCREEN_WIDTH * 0.5
 
     def start_race(self, racers, x, y):
         # Reset
@@ -54,11 +67,12 @@ class Race:
         self.finished_index = []
         self.winner_index = None
 
-        self.fastest_racer_index = None
+        # self.fastest_racer_index = None
         self.x_view_offset = 0
 
+        color_keys = list(COLORS)
         for i in range(racers):
-            self.racers.append(Player(f"Player {i}", x, y))
+            self.racers.append(Player(f"Player {i}", x, y, COLORS[color_keys[i % len(COLORS)]]))
         
         # Print out the details (name, speed, max distance) of each racer
         for i in range(len(self.racers)):
@@ -66,24 +80,39 @@ class Race:
             print(f"{racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance}")
 
     def determine_winner(self):
+        max_speed = None
+        for i in range(len(self.racers)):
+            racer = self.racers[i]
+            if (racer.max_distance >= self.distance):
+                # self.winner_index = self.racers.index(max(self.racers, key=lambda x: x.speed))
+                if ((max_speed == None) or (racer.speed > max_speed)):
+                    max_speed = racer.speed
+                    self.winner_index = i
+
         # If the racers are still competing and a winner isn't chosen yet
-        if ((len(self.finished_index) != len(self.racers)) and (self.winner_index == None)):
-            for i in range(len(self.racers)):
-                racer = self.racers[i]
+        # if ((len(self.finished_index) != len(self.racers)) and (self.winner_index == None)):
+        #     for i in range(len(self.racers)):
+        #         racer = self.racers[i]
                 
-                if ((not racer.can_run) and (racer.max_distance >= self.distance)):
-                    if (i not in self.finished_index):
-                        self.finished_index.append(i)
-        else:
-            # Find max speed of racers
-            pass
-            
+        #         if ((not racer.can_run) and (racer.max_distance >= self.distance)):
+        #             if (i not in self.finished_index):
+        #                 self.finished_index.append(i)
+        # else:
+        #     # Find winner based of the speed of those that finished the race
+        #     max_speed = None
+        #     for i in self.finished_index:
+        #         if ((max_speed == None) or (self.racers[i].speed > max_speed)):
+        #             max_speed = self.racers[i].speed
+        #             self.winner_index = i
+
+        #     print(self.winner_index)
 
     def update(self, surface):
         for i in range(len(self.racers)):
             racer = self.racers[i]
             racer.update(surface)
         
-        self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
-        self.x_view_offset = (self.racers[self.fastest_racer_index].x - self.x_view_offset_threshold) if (self.racers[self.fastest_racer_index].x >= self.x_view_offset_threshold) else 0
-        self.determine_winner()
+        # Track winning racer
+        self.x_view_offset = (self.racers[self.winner_index].x - self.x_view_offset_threshold) if (self.racers[self.winner_index].x >= self.x_view_offset_threshold) else 0
+        # self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
+        # self.determine_winner()

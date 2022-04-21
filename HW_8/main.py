@@ -34,9 +34,12 @@ def main():
     # g = graphics.Grass(0, 0)
     # d = graphics.Dirt(64, 0)
 
-    race_1 = utilities.Race(400)
+    race_1 = utilities.Race(800)
     print(f"race_1 Distance: {race_1.distance}")
     race_1.start_race(5, 0, ground.top_layer_height)
+
+    race_1.determine_winner()
+    print(f"Winner: {race_1.racers[race_1.winner_index].name}")
 
     while True:
         pygame.display.update()
@@ -53,8 +56,8 @@ def main():
         # d.draw(DISPLAY_SURF)
 
         # Draw here
-        ground.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
         race_1.update(DISPLAY_SURF)
+        ground.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
 
 
         pygame.display.update()
