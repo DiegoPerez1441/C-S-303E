@@ -15,9 +15,10 @@ class Player:
     def update(self, surface):
         if (self.can_run and self.x < self.max_distance):
             self.x += self.speed
-            pygame.draw.rect(surface, (255, 0, 0), (self.x, self.y, self.size, self.size))
         else:
             self.can_run = False
+            
+        pygame.draw.rect(surface, (255, 0, 0), (self.x, self.y, self.size, self.size))
 
 class Race:
     def __init__(self, distance) -> None:
@@ -28,6 +29,11 @@ class Race:
         self.winner_index = None
 
     def start_race(self, racers, x, y):
+        # Reset
+        self.racers = []
+        self.finished_index = []
+        self.winner_index = None
+
         for i in range(racers):
             self.racers.append(Player(f"Player {i}", x, y))
         
