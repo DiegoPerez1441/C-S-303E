@@ -38,6 +38,7 @@ def main():
     print(f"race_1 Distance: {race_1.distance}")
     race_1.start_race(5, 0, ground.top_layer_height)
 
+    counter = 0
     while True:
         pygame.display.update()
         for event in pygame.event.get():
@@ -53,7 +54,8 @@ def main():
         # d.draw(DISPLAY_SURF)
 
         # Draw here
-        ground.draw(DISPLAY_SURF)
+        counter += 1
+        ground.draw(DISPLAY_SURF, counter, 0)
         race_1.update(DISPLAY_SURF)
 
 

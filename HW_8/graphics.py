@@ -22,6 +22,15 @@ class Grass(Texture):
         self.x = x
         self.y = y
 
+        self.x_offset = 0
+        self.y_offset = 0
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
+
+    def update(self):
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
+
     def draw(self, surface):
         crop_start_x = Grass.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Grass.INDEX[1] * Texture.RESOLUTION[1]
@@ -34,7 +43,7 @@ class Grass(Texture):
 
         # Scale tmp_surface and blit onto surface
         # surface.blit(pygame.transform.scale(Grass.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
-        surface.blit(pygame.transform.scale(Grass.tmp_surface, Texture.SCALED_RESOLUTION), (self.x, self.y))
+        surface.blit(pygame.transform.scale(Grass.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
 
 class Dirt(Texture):
     INDEX = (21, 10)
@@ -45,6 +54,15 @@ class Dirt(Texture):
         # res = self.RESOLUTION[0] # CHECK THIS OUT LATER
         self.x = x
         self.y = y
+        
+        self.x_offset = 0
+        self.y_offset = 0
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
+
+    def update(self):
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
 
     def draw(self, surface):
         crop_start_x = Dirt.INDEX[0] * Texture.RESOLUTION[0]
@@ -58,7 +76,7 @@ class Dirt(Texture):
         
         # Scale tmp_surface and blit onto surface
         # surface.blit(pygame.transform.scale(Dirt.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
-        surface.blit(pygame.transform.scale(Dirt.tmp_surface, Texture.SCALED_RESOLUTION), (self.x, self.y))
+        surface.blit(pygame.transform.scale(Dirt.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
 
 class Floor():
     def __init__(self, length, depth, SCREEN_WIDTH, SCREEN_HEIGHT) -> None:
@@ -84,8 +102,13 @@ class Floor():
                 else:
                     self.block_map[d].append(Dirt(pos_x, pos_y))
 
-    def draw(self, surface):
+    def draw(self, surface, x_offset, y_offset):
         for l in range(self.length):
             for d in range(self.depth):
                 obj_instance = self.block_map[d][l]
+
+                l_x_offset = -(x_offset % Texture.SCALED_RESOLUTION[0])
+
+                obj_instance.x_offset = l_x_offset
+                obj_instance.update()
                 obj_instance.draw(surface)
