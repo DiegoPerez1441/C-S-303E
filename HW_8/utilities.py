@@ -1,18 +1,33 @@
 from random import randint, uniform
 import pygame
 
+import graphics
+
+# Screen Information 16/9 aspect ratio
+SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
+SCREEN_HEIGHT = graphics.Texture.SCALED_RESOLUTION[1] * 9
+
 class Player:
     def __init__(self, name, x, y) -> None:
         self.name = f"{name}"
         self.speed = randint(2, 10)
-        self.max_distance = uniform(250, 500)
+        self.max_distance = uniform(500, 800)
 
         self.can_run = True
         self.size = 20
+
         self.x = x
         self.y = y - self.size
 
+        self.x_offset = 0
+        self.y_offset = 0
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
+
     def update(self, surface):
+        self.tx = self.x + self.x_offset
+        self.ty = self.y + self.y_offset
+
         if (self.can_run and self.x < self.max_distance):
             self.x += self.speed
         else:
@@ -28,11 +43,19 @@ class Race:
         self.finished_index = []
         self.winner_index = None
 
+        self.fastest_racer_index = None
+        self.x_view_offset = 0
+
+        self.x_view_offset_threshold = SCREEN_WIDTH * 0.7
+
     def start_race(self, racers, x, y):
         # Reset
         self.racers = []
         self.finished_index = []
         self.winner_index = None
+
+        self.fastest_racer_index = None
+        self.x_view_offset = 0
 
         for i in range(racers):
             self.racers.append(Player(f"Player {i}", x, y))
@@ -61,4 +84,6 @@ class Race:
             racer = self.racers[i]
             racer.update(surface)
         
+        self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
+        self.x_view_offset = (self.racers[self.fastest_racer_index].x - self.x_view_offset_threshold) if (self.racers[self.fastest_racer_index].x >= self.x_view_offset_threshold) else 0
         self.determine_winner()
