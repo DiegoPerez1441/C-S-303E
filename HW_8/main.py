@@ -58,7 +58,7 @@ def main():
 
         # Draw here
         ground.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
-        race_1.update(DISPLAY_SURF, ground.top_layer_height, ground.depth * graphics.Texture.SCALED_RESOLUTION[1], graphics.Texture.SCALED_RESOLUTION)
+        race_1.update(DISPLAY_SURF, ground.top_layer_height, ground.depth)
 
 
         pygame.display.update()

@@ -27,7 +27,7 @@ class Player:
         self.max_distance = uniform(500, 1000)
 
         self.can_run = True
-        self.size = 20
+        self.size = int(graphics.Texture.SCALED_RESOLUTION[0] / 4)
         self.color = color
 
         self.x = x
@@ -50,6 +50,9 @@ class Player:
         pygame.draw.rect(surface, self.color, (self.tx, self.ty, self.size, self.size))
 
 class Race:
+
+    FINISHLINE_RESOLUTION = (int(graphics.Texture.SCALED_RESOLUTION[0] / 2), int(graphics.Texture.SCALED_RESOLUTION[1] / 2))
+
     def __init__(self, distance) -> None:
         self.distance = distance
 
@@ -107,7 +110,7 @@ class Race:
 
         #     print(self.winner_index)
 
-    def update(self, surface, finishline_y, height, res):
+    def update(self, surface, finishline_y, depth):
         # Track winning racer
         self.x_view_offset = (self.racers[self.winner_index].x - self.x_view_offset_threshold) if (self.racers[self.winner_index].x >= self.x_view_offset_threshold) else 0
         # self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
@@ -118,5 +121,15 @@ class Race:
             racer.x_offset = -self.x_view_offset
             racer.update(surface)
         
+        # pygame.draw.rect(surface, COLORS["black"], (self.distance - self.x_view_offset, finishline_y, res[0], height))
+        for i in range(int(graphics.Texture.SCALED_RESOLUTION[0] / Race.FINISHLINE_RESOLUTION[0])):
+            for j in range(int(graphics.Texture.SCALED_RESOLUTION[1] / Race.FINISHLINE_RESOLUTION[1]) * depth):
+                ie = True if i%2 == 0 else False
+                je = True if j%2 == 0 else False
 
-        pygame.draw.rect(surface, COLORS["black"], (self.distance - self.x_view_offset, finishline_y, res[0], height))
+                color_xor = ie ^ je
+                color = (255, 255, 255) if color_xor else (0, 0, 0)
+
+                x = (self.distance - self.x_view_offset) + (i * Race.FINISHLINE_RESOLUTION[0])
+                y = finishline_y + (j * Race.FINISHLINE_RESOLUTION[1])
+                pygame.draw.rect(surface, color, (x, y, Race.FINISHLINE_RESOLUTION[0], Race.FINISHLINE_RESOLUTION[1]))
