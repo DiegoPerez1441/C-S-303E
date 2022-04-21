@@ -51,7 +51,7 @@ class Player:
 
 class Race:
 
-    FINISHLINE_RESOLUTION = (int(graphics.Texture.SCALED_RESOLUTION[0] / 2), int(graphics.Texture.SCALED_RESOLUTION[1] / 2))
+    FINISH_LINE_RESOLUTION = (int(graphics.Texture.SCALED_RESOLUTION[0] / 2), int(graphics.Texture.SCALED_RESOLUTION[1] / 2))
 
     def __init__(self, distance) -> None:
         self.distance = distance
@@ -122,14 +122,15 @@ class Race:
             racer.update(surface)
         
         # pygame.draw.rect(surface, COLORS["black"], (self.distance - self.x_view_offset, finishline_y, res[0], height))
-        for i in range(int(graphics.Texture.SCALED_RESOLUTION[0] / Race.FINISHLINE_RESOLUTION[0])):
-            for j in range(int(graphics.Texture.SCALED_RESOLUTION[1] / Race.FINISHLINE_RESOLUTION[1]) * depth):
+        for i in range(int(graphics.Texture.SCALED_RESOLUTION[0] / Race.FINISH_LINE_RESOLUTION[0])):
+            for j in range(int(graphics.Texture.SCALED_RESOLUTION[1] / Race.FINISH_LINE_RESOLUTION[1]) * depth):
                 ie = True if i%2 == 0 else False
                 je = True if j%2 == 0 else False
 
                 color_xor = ie ^ je
                 color = (255, 255, 255) if color_xor else (0, 0, 0)
 
-                x = (self.distance - self.x_view_offset) + (i * Race.FINISHLINE_RESOLUTION[0])
-                y = finishline_y + (j * Race.FINISHLINE_RESOLUTION[1])
-                pygame.draw.rect(surface, color, (x, y, Race.FINISHLINE_RESOLUTION[0], Race.FINISHLINE_RESOLUTION[1]))
+                # Winning after crossing the end of the finish line
+                x = ((self.distance - self.x_view_offset) + (i * Race.FINISH_LINE_RESOLUTION[0]) - graphics.Texture.SCALED_RESOLUTION[0])
+                y = finishline_y + (j * Race.FINISH_LINE_RESOLUTION[1])
+                pygame.draw.rect(surface, color, (x, y, Race.FINISH_LINE_RESOLUTION[0], Race.FINISH_LINE_RESOLUTION[1]))
