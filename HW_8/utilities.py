@@ -47,7 +47,7 @@ class Player:
         self.tx = self.x + self.x_offset
         self.ty = self.y + self.y_offset
             
-        pygame.draw.rect(surface, self.color, (self.x, self.y, self.size, self.size))
+        pygame.draw.rect(surface, self.color, (self.tx, self.ty, self.size, self.size))
 
 class Race:
     def __init__(self, distance) -> None:
@@ -107,12 +107,16 @@ class Race:
 
         #     print(self.winner_index)
 
-    def update(self, surface):
-        for i in range(len(self.racers)):
-            racer = self.racers[i]
-            racer.update(surface)
-        
+    def update(self, surface, finishline_y, height, res):
         # Track winning racer
         self.x_view_offset = (self.racers[self.winner_index].x - self.x_view_offset_threshold) if (self.racers[self.winner_index].x >= self.x_view_offset_threshold) else 0
         # self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
         # self.determine_winner()
+
+        for i in range(len(self.racers)):
+            racer = self.racers[i]
+            racer.x_offset = -self.x_view_offset
+            racer.update(surface)
+        
+
+        pygame.draw.rect(surface, COLORS["black"], (self.distance - self.x_view_offset, finishline_y, res[0], height))
