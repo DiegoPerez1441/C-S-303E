@@ -84,8 +84,8 @@ def main():
         pygame.display.update()
         FRAME_PER_SEC.tick(FPS)
 
-    # Sleep 5 seconds after race_1 finishes
-    sleep(5)
+    # Sleep 3 seconds after race_1 finishes
+    sleep(3)
 
     ########################################
     # race_1 Part 2                        #
