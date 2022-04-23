@@ -51,7 +51,7 @@ def main():
 
     race_1.determine_winner()
     # Print output depending on winner status
-    if (race_1.winner.name == None):
+    if (race_1.winner == None):
         print(f"Winner: No Winner")
     else:
         print(f"Winner: {race_1.winner.name}")
@@ -74,7 +74,8 @@ def main():
         race_1.leaderboard_update(DISPLAY_SURF)
 
         if (race_1.race_finished):
-            race_1.leaderboard_update(DISPLAY_SURF)
+            # This was drawing the leaderboard twice
+            # race_1.leaderboard_update(DISPLAY_SURF)
             race_1_pt1_ongoing = False
             race_1_pt2_ongoing = True
             # This break prevents the leaderboard from displaying updates after the race finishes
@@ -95,7 +96,7 @@ def main():
 
     race_1.determine_winner()
     # Print output depending on winner status
-    if (race_1.winner.name == None):
+    if (race_1.winner == None):
         print(f"Winner: No Winner")
     else:
         print(f"Winner: {race_1.winner.name}")

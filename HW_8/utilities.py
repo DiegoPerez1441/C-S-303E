@@ -112,26 +112,41 @@ class Race:
         else:
             self.race_finished = True
 
+
         if (self.race_finished):
-            # Sort based on speed if race is done
-            # self.racers.sort(key=lambda x: x.speed)
-            self.finished_racers.sort(reverse=True, key=lambda x: x.speed)
+            if (self.winner is not None):
+                # Sort based on speed if race is done
+                self.finished_racers.sort(reverse=True, key=lambda x: x.speed)
 
-            render_text(surface, "Finished", 20, 20, (255, 0, 0))
-            render_text(surface, f"Winner: {self.winner.name}", 120, 20, (255, 0, 0))
-            for i in range(len(self.finished_racers)):
-                racer = self.finished_racers[i]
-                x = 20
-                y = 40 + (i*20)
+                render_text(surface, "Finished", 20, 20, (255, 0, 0))
+                render_text(surface, f"Winner: {self.winner.name}", 120, 20, (255, 0, 0))
 
-                render_text(surface, f"{i + 1}. ", x, y, (255, 0, 0))
-                pygame.draw.rect(surface, racer.color, (x + 20, y, 10, 10))
-                render_text(surface, f" {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x + 30, y, (255, 0, 0))
+                for i in range(len(self.finished_racers)):
+                    racer = self.finished_racers[i]
+                    x = 20
+                    y = 40 + (i*20)
+
+                    render_text(surface, f"{i + 1}. ", x, y, (255, 0, 0))
+                    pygame.draw.rect(surface, racer.color, (x + 20, y, 10, 10))
+                    render_text(surface, f" {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x + 30, y, (255, 0, 0))
+
+            else:
+                # Show leaderboard in the case that there is no winner
+                self.racers.sort(key=lambda x: x.x)
+                render_text(surface, "Leaderboard (No Winners)", 20, 20, (255, 0, 0))
+
+                for i in range(len(self.racers)):
+                    racer = self.racers[i]
+                    x = 20
+                    y = 40 + (i*20)
+
+                    render_text(surface, f"{i + 1}. ", x, y, (255, 0, 0))
+                    pygame.draw.rect(surface, racer.color, (x + 20, y, 10, 10))
+                    render_text(surface, f" {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x + 30, y, (255, 0, 0))
 
         else:
             # Sort based on position if race is not done
             self.racers.sort(reverse=True, key=lambda x: x.x)
-            # self.finished_racers.sort(key=lambda x: x.x)
             
             render_text(surface, "Leaderboard", 20, 20, (255, 0, 0))
             for i in range(len(self.racers)):
@@ -144,10 +159,13 @@ class Race:
                 render_text(surface, f" {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x + 30, y, (255, 0, 0))
 
     def update(self, surface, finishline_y, depth):
-        # Track winning racer
-        self.x_view_offset = (self.winner.x - self.x_view_offset_threshold) if (self.winner.x >= self.x_view_offset_threshold) else 0
-        # self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
-        # self.determine_winner()
+        if (self.winner == None):
+            # Track leading racer
+            lead_racer = max(self.racers, key=lambda x: x.x)
+            self.x_view_offset = (lead_racer.x - self.x_view_offset_threshold) if (lead_racer.x >= self.x_view_offset_threshold) else 0
+        else:
+            # Track winning racer
+            self.x_view_offset = (self.winner.x - self.x_view_offset_threshold) if (self.winner.x >= self.x_view_offset_threshold) else 0    
 
         for i in range(len(self.racers)):
             racer = self.racers[i]
