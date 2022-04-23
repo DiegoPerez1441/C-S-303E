@@ -57,8 +57,12 @@ class Race:
         self.distance = distance
 
         self.racers = []
-        self.finished_index = []
+        # self.finished_index = []
         self.winner_index = None
+
+        self.stopped_racers = []
+        self.finished_racers = []
+        self.race_finished = False
 
         # self.fastest_racer_index = None
         self.x_view_offset = 0
@@ -67,8 +71,12 @@ class Race:
     def start_race(self, racers, x, y):
         # Reset
         self.racers = []
-        self.finished_index = []
+        # self.finished_index = []
         self.winner_index = None
+
+        self.stopped_racers = []
+        self.finished_racers = []
+        self.race_finished = False
 
         # self.fastest_racer_index = None
         self.x_view_offset = 0
@@ -93,32 +101,44 @@ class Race:
                     self.winner_index = i
 
     def leaderboard_update(self, surface):
-        # If the racers are still competing and a winner isn't chosen yet
-        # if ((len(self.finished_index) != len(self.racers)) and (self.winner_index == None)):
-        #     for i in range(len(self.racers)):
-        #         racer = self.racers[i]
+        # If racers are still competing
+        if ((len(self.stopped_racers) != len(self.racers)) and (not self.race_finished)):
+            for i in range(len(self.racers)):
+                racer = self.racers[i]
                 
-        #         if ((not racer.can_run) and (racer.max_distance >= self.distance)):
-        #             if (i not in self.finished_index):
-        #                 self.finished_index.append(i)
-        # else:
-        #     pass
-            # Find winner based of the speed of those that finished the race
-            # max_speed = None
-            # for i in self.finished_index:
-            #     if ((max_speed == None) or (self.racers[i].speed > max_speed)):
-            #         max_speed = self.racers[i].speed
-            #         self.winner_index = i
+                if ((not racer.can_run) and (racer.max_distance >= self.distance)):
+                    if (racer not in self.finished_racers):
+                        self.finished_racers.append(racer)
+                
+                if (not racer.can_run):
+                    if (racer not in self.stopped_racers):
+                        self.stopped_racers.append(racer)
+        else:
+            self.race_finished = True
 
-            # print(self.winner_index)
+        if (self.race_finished):
+            # Sort based on speed if race is done
+            # self.racers.sort(key=lambda x: x.speed)
+            self.finished_racers.sort(key=lambda x: x.speed)
 
-        self.racers.sort(key=lambda x: x.x)
-        render_text(surface, "Leaderboard", 20, 20, (255, 0, 0))
-        for i in range(len(self.racers)):
-            racer = self.racers[i]
-            x = 20
-            y = 40 + (i*20)
-            render_text(surface, f"{i + 1}. {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x, y, (255, 0, 0))
+            render_text(surface, "Leaderboard", 20, 20, (255, 0, 0))
+            for i in range(len(self.finished_racers)):
+                racer = self.finished_racers[i]
+                x = 20
+                y = 40 + (i*20)
+                render_text(surface, f"{i + 1}. {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x, y, (255, 0, 0))
+
+        else:
+            # Sort based on position if race is not done
+            self.racers.sort(key=lambda x: x.x)
+            # self.finished_racers.sort(key=lambda x: x.x)
+            
+            render_text(surface, "Leaderboard", 20, 20, (255, 0, 0))
+            for i in range(len(self.racers)):
+                racer = self.racers[i]
+                x = 20
+                y = 40 + (i*20)
+                render_text(surface, f"{i + 1}. {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x, y, (255, 0, 0))
 
     def update(self, surface, finishline_y, depth):
         # Track winning racer
