@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame.locals import *
+from time import sleep
 
 import graphics
 import utilities
@@ -76,6 +77,8 @@ def main():
         pygame.display.update()
         FRAME_PER_SEC.tick(FPS)
 
+    # Sleep 5 seconds after race_1 finishes
+    sleep(5)
 
     ########################################
     # race_1 Part 2                        #
