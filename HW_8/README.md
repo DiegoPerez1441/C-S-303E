@@ -1,5 +1,13 @@
 # HW 8
 
+## Running
+### Install Packages via pip
+`$ python3 -m pip install -r requirements.txt`
+
+### Run using Python 3.9
+`$ python3.9 main.py`
+
+## Assignment
 For this assignment you will use Object-Oriented Programming to create a racing game. You have 2 choices for this assignment - Challenge Mode or Simple Mode (_I recommend Challenge Mode if you plan to take other programming classes after this, and only take Simple Mode if you expect this to be your only programming class_).
 
 ## Challenge Mode
