@@ -8,7 +8,7 @@ import utilities
 # Initialize pygame
 pygame.init()
 
-FPS = 30
+FPS: int = 30
 FRAME_PER_SEC = pygame.time.Clock()
 
 WHITE = (255, 255, 255)
@@ -21,8 +21,8 @@ BLUE = (0, 0, 255)
 SKY_BLUE = (135, 206, 235)
 
 # Screen Information 16/9 aspect ratio
-SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
-SCREEN_HEIGHT = graphics.Texture.SCALED_RESOLUTION[1] * 9
+SCREEN_WIDTH: int = graphics.Texture.SCALED_RESOLUTION[0] * 16
+SCREEN_HEIGHT: int = graphics.Texture.SCALED_RESOLUTION[1] * 9
 
 DISPLAY_SURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 DISPLAY_SURF.fill(WHITE)
