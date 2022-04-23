@@ -2,6 +2,7 @@ from random import randint, uniform
 import pygame
 
 import graphics
+from text import render_text
 
 # Screen Information 16/9 aspect ratio
 SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
@@ -50,7 +51,6 @@ class Player:
         pygame.draw.rect(surface, self.color, (self.tx, self.ty, self.size, self.size))
 
 class Race:
-
     FINISH_LINE_RESOLUTION = (int(graphics.Texture.SCALED_RESOLUTION[0] / 2), int(graphics.Texture.SCALED_RESOLUTION[1] / 2))
 
     def __init__(self, distance) -> None:
@@ -92,6 +92,7 @@ class Race:
                     max_speed = racer.speed
                     self.winner_index = i
 
+    def leaderboard_update(self, surface):
         # If the racers are still competing and a winner isn't chosen yet
         # if ((len(self.finished_index) != len(self.racers)) and (self.winner_index == None)):
         #     for i in range(len(self.racers)):
@@ -101,14 +102,23 @@ class Race:
         #             if (i not in self.finished_index):
         #                 self.finished_index.append(i)
         # else:
-        #     # Find winner based of the speed of those that finished the race
-        #     max_speed = None
-        #     for i in self.finished_index:
-        #         if ((max_speed == None) or (self.racers[i].speed > max_speed)):
-        #             max_speed = self.racers[i].speed
-        #             self.winner_index = i
+        #     pass
+            # Find winner based of the speed of those that finished the race
+            # max_speed = None
+            # for i in self.finished_index:
+            #     if ((max_speed == None) or (self.racers[i].speed > max_speed)):
+            #         max_speed = self.racers[i].speed
+            #         self.winner_index = i
 
-        #     print(self.winner_index)
+            # print(self.winner_index)
+
+        self.racers.sort(key=lambda x: x.x)
+        render_text(surface, "Leaderboard", 20, 20, (255, 0, 0))
+        for i in range(len(self.racers)):
+            racer = self.racers[i]
+            x = 20
+            y = 40 + (i*20)
+            render_text(surface, f"{i + 1}. {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x, y, (255, 0, 0))
 
     def update(self, surface, finishline_y, depth):
         # Track winning racer

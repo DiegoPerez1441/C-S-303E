@@ -63,6 +63,7 @@ def main():
         tree1.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
 
         race_1.update(DISPLAY_SURF, ground.top_layer_height, ground.depth)
+        race_1.leaderboard_update(DISPLAY_SURF)
 
 
         pygame.display.update()
