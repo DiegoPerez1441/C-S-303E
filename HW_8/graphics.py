@@ -122,7 +122,7 @@ class Log_Oak(Block):
         surface.blit(pygame.transform.scale(Log_Oak.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
 
 class Leaves_Oak(Block):
-    INDEX = (0, 1)
+    INDEX = (1, 1)
     tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
     tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
 
@@ -138,6 +138,42 @@ class Leaves_Oak(Block):
 
         # Scale tmp_surface and blit onto surface
         surface.blit(pygame.transform.scale(Leaves_Oak.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
+
+class Tree_Oak():
+    SHAPE = [
+        [" ", " ", "l", "l", "l", " ", " "],
+        [" ", "l", "l", "l", "l", "l", " "],
+        ["l", "l", "l", "l", "l", "l", "l"],
+        ["l", "l", "l", "l", "l", "l", "l"],
+        [" ", " ", " ", "w", " ", " ", " "],
+        [" ", " ", " ", "w", " ", " ", " "],
+        [" ", " ", " ", "w", " ", " ", " "],
+    ]
+
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+
+        self.blocks = []
+
+        for i in range(len(Tree_Oak.SHAPE[0])):
+            for j in range(len(Tree_Oak.SHAPE)):
+                obj = Tree_Oak.SHAPE[j][i]
+                pos_x = x + (i * Texture.SCALED_RESOLUTION[0])
+                pos_y = y + (j * Texture.SCALED_RESOLUTION[1])
+
+                if (obj == "l"):
+                    self.blocks.append(Leaves_Oak(pos_x, pos_y))
+                elif (obj == "w"):
+                    self.blocks.append(Log_Oak(pos_x, pos_y))
+
+    def draw(self, surface, x_offset, y_offset):
+        for i in range(len(self.blocks)):
+            obj = self.blocks[i]
+
+            obj.x_offset = -x_offset
+            obj.update()
+            obj.draw(surface)
 
 class Floor():
     def __init__(self, length, depth, SCREEN_WIDTH, SCREEN_HEIGHT) -> None:
