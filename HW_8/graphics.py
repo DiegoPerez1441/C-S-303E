@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
+from typing import Tuple, Union
 
 from random import random
 import pygame
@@ -13,7 +13,7 @@ class Texture(ABC):
     SCALED_RESOLUTION = (RESOLUTION[0] * SCALE, RESOLUTION[1] * SCALE)
 
     @abstractmethod
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         pass
 
 class Block(Texture):
@@ -31,11 +31,11 @@ class Block(Texture):
         self.tx = self.x + self.x_offset
         self.ty = self.y + self.y_offset
 
-    def update(self):
+    def update(self) -> None:
         self.tx = self.x + self.x_offset
         self.ty = self.y + self.y_offset
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         crop_start_x = Block.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Block.INDEX[1] * Texture.RESOLUTION[1]
 
@@ -57,7 +57,7 @@ class Grass(Block):
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         crop_start_x = Grass.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Grass.INDEX[1] * Texture.RESOLUTION[1]
 
@@ -75,7 +75,7 @@ class Dirt(Block):
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         crop_start_x = Dirt.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Dirt.INDEX[1] * Texture.RESOLUTION[1]
 
@@ -93,7 +93,7 @@ class Stone(Block):
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         crop_start_x = Stone.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Stone.INDEX[1] * Texture.RESOLUTION[1]
 
@@ -111,7 +111,7 @@ class Log_Oak(Block):
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         crop_start_x = Log_Oak.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Log_Oak.INDEX[1] * Texture.RESOLUTION[1]
 
@@ -129,7 +129,7 @@ class Leaves_Oak(Block):
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.surface.Surface) -> None:
         crop_start_x = Leaves_Oak.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Leaves_Oak.INDEX[1] * Texture.RESOLUTION[1]
 
@@ -168,7 +168,7 @@ class Tree_Oak():
                 elif (obj == "w"):
                     self.blocks.append(Log_Oak(pos_x, pos_y))
 
-    def draw(self, surface, x_offset, y_offset):
+    def draw(self, surface: pygame.surface.Surface, x_offset: Union[int, float], y_offset: Union[int, float]) -> None:
         for i in range(len(self.blocks)):
             obj = self.blocks[i]
 
@@ -177,7 +177,7 @@ class Tree_Oak():
             obj.draw(surface)
 
 class Floor():
-    def __init__(self, length, depth, SCREEN_WIDTH, SCREEN_HEIGHT) -> None:
+    def __init__(self, length: int, depth: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int) -> None:
         self.length = length
         self.depth = depth
 
@@ -200,7 +200,7 @@ class Floor():
                 else:
                     self.block_map[d].append(Dirt(pos_x, pos_y))
 
-    def draw(self, surface, x_offset, y_offset):
+    def draw(self, surface: pygame.surface.Surface, x_offset: Union[int, float], y_offset: Union[int, float]):
         for l in range(self.length):
             for d in range(self.depth):
                 obj_instance = self.block_map[d][l]
