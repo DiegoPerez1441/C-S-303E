@@ -28,26 +28,30 @@ DISPLAY_SURF.fill(WHITE)
 pygame.display.set_caption("HW 8")
 
 def main():
+    # Separate pygame terminal output
+    print("=" * 20)
+
+
     # Add one extra block to the right to compensate for transformations
     ground = graphics.Floor(int(SCREEN_WIDTH/graphics.Texture.SCALED_RESOLUTION[0] + 1), 2, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     tree1 = graphics.Tree_Oak(0, ground.top_layer_height)
+    
 
-    # Testing
-    # g = graphics.Grass(0, 0)
-    # d = graphics.Dirt(64, 0)
-
-    # Separate pygame terminal output
-    print("=" * 20)
+    ########################################
+    # race_1 part 1                        #
+    ########################################
 
     race_1 = utilities.Race(800)
     print(f"race_1 Distance: {race_1.distance}")
     race_1.start_race(5, 0, ground.top_layer_height)
+    race_1_pt1_ongoing = True
+    race_1_pt2_ongoing = False
 
     race_1.determine_winner()
     print(f"Winner: {race_1.racers[race_1.winner_index].name}")
 
-    while True:
+    while race_1_pt1_ongoing:
         # pygame.display.update()
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -56,10 +60,6 @@ def main():
 
 
         DISPLAY_SURF.fill(SKY_BLUE)
-        
-        # Testing
-        # g.draw(DISPLAY_SURF)
-        # d.draw(DISPLAY_SURF)
 
         # Draw here
         ground.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
@@ -68,9 +68,49 @@ def main():
         race_1.update(DISPLAY_SURF, ground.top_layer_height, ground.depth)
         race_1.leaderboard_update(DISPLAY_SURF)
 
+        if (race_1.race_finished):
+            race_1_pt1_ongoing = False
+            race_1_pt2_ongoing = True
+            break
 
         pygame.display.update()
         FRAME_PER_SEC.tick(FPS)
+
+
+    ########################################
+    # race_1 part 2                        #
+    ########################################
+
+    race_1.start_race(8, 0, ground.top_layer_height)
+
+    race_1.determine_winner()
+    print(f"Winner: {race_1.racers[race_1.winner_index].name}")
+    
+    while race_1_pt2_ongoing:
+        # pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+
+        DISPLAY_SURF.fill(SKY_BLUE)
+
+        # Draw here
+        ground.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
+        tree1.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
+
+        race_1.update(DISPLAY_SURF, ground.top_layer_height, ground.depth)
+        race_1.leaderboard_update(DISPLAY_SURF)
+
+        # if (race_1.race_finished):
+        #     race_1_pt2_ongoing = False
+        #     break
+
+        pygame.display.update()
+        FRAME_PER_SEC.tick(FPS)
+
+
 
 if __name__ == "__main__":
     main()
