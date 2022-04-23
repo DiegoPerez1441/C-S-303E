@@ -36,10 +36,10 @@ def main():
     ground = graphics.Floor(int(SCREEN_WIDTH/graphics.Texture.SCALED_RESOLUTION[0] + 1), 2, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     tree1 = graphics.Tree_Oak(0, ground.top_layer_height)
-    
+
 
     ########################################
-    # race_1 part 1                        #
+    # race_1 Part 1                        #
     ########################################
 
     race_1 = utilities.Race(800)
@@ -78,9 +78,10 @@ def main():
 
 
     ########################################
-    # race_1 part 2                        #
+    # race_1 Part 2                        #
     ########################################
 
+    print("=" * 10, f" race_1 Part 2 ", "=" * 10, sep="")
     race_1.start_race(8, 0, ground.top_layer_height)
 
     race_1.determine_winner()
