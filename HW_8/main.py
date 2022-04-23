@@ -74,9 +74,11 @@ def main():
         race_1.leaderboard_update(DISPLAY_SURF)
 
         if (race_1.race_finished):
+            race_1.leaderboard_update(DISPLAY_SURF)
             race_1_pt1_ongoing = False
             race_1_pt2_ongoing = True
-            break
+            # This break prevents the leaderboard from displaying updates after the race finishes
+            # break
 
         pygame.display.update()
         FRAME_PER_SEC.tick(FPS)

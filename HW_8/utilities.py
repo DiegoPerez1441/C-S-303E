@@ -117,7 +117,8 @@ class Race:
             # self.racers.sort(key=lambda x: x.speed)
             self.finished_racers.sort(reverse=True, key=lambda x: x.speed)
 
-            render_text(surface, "Leaderboard", 20, 20, (255, 0, 0))
+            render_text(surface, "Finished", 20, 20, (255, 0, 0))
+            render_text(surface, f"Winner: {self.winner.name}", 120, 20, (255, 0, 0))
             for i in range(len(self.finished_racers)):
                 racer = self.finished_racers[i]
                 x = 20
