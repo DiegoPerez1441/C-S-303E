@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pygame
 
 class Texture(ABC):
-    TEXTURE_ATLAS = pygame.image.load("HW_8/1.17_Pre-release_3_blocks.png-atlas.png")
+    TEXTURE_ATLAS = pygame.image.load("HW_8/Texture_Atlas.png")
     RESOLUTION = (16, 16)
     SCALE = 4
     SCALED_RESOLUTION = (RESOLUTION[0] * SCALE, RESOLUTION[1] * SCALE)
@@ -13,7 +13,7 @@ class Texture(ABC):
         pass
 
 class Grass(Texture):
-    INDEX = (25, 0)
+    INDEX = (0, 0)
     tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
     tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
 
@@ -46,7 +46,7 @@ class Grass(Texture):
         surface.blit(pygame.transform.scale(Grass.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
 
 class Dirt(Texture):
-    INDEX = (21, 10)
+    INDEX = (1, 0)
     tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
     tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
 
