@@ -1,4 +1,5 @@
 # HW 8
+![HW_8_Output_Screenshot.png](./HW_8_Output_ScreenShot.png)
 
 ## Running
 ### Install Packages via pip
