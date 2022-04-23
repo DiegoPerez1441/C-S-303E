@@ -61,14 +61,10 @@ class Grass(Block):
         crop_start_x = Grass.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Grass.INDEX[1] * Texture.RESOLUTION[1]
 
-        # Original
-        # surface.blit(self.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, res, res))
-
         # Draw texture onto a temporary surface
         Grass.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
 
         # Scale tmp_surface and blit onto surface
-        # surface.blit(pygame.transform.scale(Grass.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
         surface.blit(pygame.transform.scale(Grass.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
 
 class Dirt(Block):
@@ -83,15 +79,65 @@ class Dirt(Block):
         crop_start_x = Dirt.INDEX[0] * Texture.RESOLUTION[0]
         crop_start_y = Dirt.INDEX[1] * Texture.RESOLUTION[1]
 
-        # Original
-        # surface.blit(self.TEXTURE_ATLAS, (self.x, self.y), (crop_start_x, crop_start_y, res, res))
-
         # Draw texture onto a temporary surface
         Dirt.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
 
         # Scale tmp_surface and blit onto surface
-        # surface.blit(pygame.transform.scale(Dirt.tmp_surface, (Texture.SCALED_RESOLUTION[0], Texture.SCALED_RESOLUTION[1])), (self.x, self.y))
         surface.blit(pygame.transform.scale(Dirt.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
+
+class Stone(Block):
+    INDEX = (2, 0)
+    tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+    tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
+
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x, y)
+
+    def draw(self, surface):
+        crop_start_x = Stone.INDEX[0] * Texture.RESOLUTION[0]
+        crop_start_y = Stone.INDEX[1] * Texture.RESOLUTION[1]
+
+        # Draw texture onto a temporary surface
+        Stone.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+
+        # Scale tmp_surface and blit onto surface
+        surface.blit(pygame.transform.scale(Stone.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
+
+class Log_Oak(Block):
+    INDEX = (0, 1)
+    tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+    tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
+
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x, y)
+
+    def draw(self, surface):
+        crop_start_x = Log_Oak.INDEX[0] * Texture.RESOLUTION[0]
+        crop_start_y = Log_Oak.INDEX[1] * Texture.RESOLUTION[1]
+
+        # Draw texture onto a temporary surface
+        Log_Oak.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+
+        # Scale tmp_surface and blit onto surface
+        surface.blit(pygame.transform.scale(Log_Oak.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
+
+class Leaves_Oak(Block):
+    INDEX = (0, 1)
+    tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+    tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
+
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x, y)
+
+    def draw(self, surface):
+        crop_start_x = Leaves_Oak.INDEX[0] * Texture.RESOLUTION[0]
+        crop_start_y = Leaves_Oak.INDEX[1] * Texture.RESOLUTION[1]
+
+        # Draw texture onto a temporary surface
+        Leaves_Oak.tmp_surface.blit(Texture.TEXTURE_ATLAS, (0, 0), (crop_start_x, crop_start_y, Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
+
+        # Scale tmp_surface and blit onto surface
+        surface.blit(pygame.transform.scale(Leaves_Oak.tmp_surface, Texture.SCALED_RESOLUTION), (self.tx, self.ty))
 
 class Floor():
     def __init__(self, length, depth, SCREEN_WIDTH, SCREEN_HEIGHT) -> None:
