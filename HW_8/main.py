@@ -50,7 +50,11 @@ def main():
     race_1_pt2_ongoing = False
 
     race_1.determine_winner()
-    print(f"Winner: {race_1.racers[race_1.winner_index].name}")
+    # Print output depending on winner status
+    if (race_1.winner.name == None):
+        print(f"Winner: No Winner")
+    else:
+        print(f"Winner: {race_1.winner.name}")
 
     while race_1_pt1_ongoing:
         # pygame.display.update()
@@ -88,7 +92,11 @@ def main():
     race_1.start_race(8, 0, ground.top_layer_height)
 
     race_1.determine_winner()
-    print(f"Winner: {race_1.racers[race_1.winner_index].name}")
+    # Print output depending on winner status
+    if (race_1.winner.name == None):
+        print(f"Winner: No Winner")
+    else:
+        print(f"Winner: {race_1.winner.name}")
     
     while race_1_pt2_ongoing:
         # pygame.display.update()

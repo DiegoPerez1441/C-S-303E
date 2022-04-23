@@ -57,28 +57,24 @@ class Race:
         self.distance = distance
 
         self.racers = []
-        # self.finished_index = []
-        self.winner_index = None
+        self.winner = None
 
         self.stopped_racers = []
         self.finished_racers = []
         self.race_finished = False
 
-        # self.fastest_racer_index = None
         self.x_view_offset = 0
         self.x_view_offset_threshold = SCREEN_WIDTH * 0.5
 
     def start_race(self, racers, x, y):
         # Reset
         self.racers = []
-        # self.finished_index = []
-        self.winner_index = None
+        self.winner = None
 
         self.stopped_racers = []
         self.finished_racers = []
         self.race_finished = False
 
-        # self.fastest_racer_index = None
         self.x_view_offset = 0
 
         color_keys = list(COLORS)
@@ -98,7 +94,7 @@ class Race:
                 # self.winner_index = self.racers.index(max(self.racers, key=lambda x: x.speed))
                 if ((max_speed == None) or (racer.speed > max_speed)):
                     max_speed = racer.speed
-                    self.winner_index = i
+                    self.winner = racer
 
     def leaderboard_update(self, surface):
         # If racers are still competing
@@ -148,7 +144,7 @@ class Race:
 
     def update(self, surface, finishline_y, depth):
         # Track winning racer
-        self.x_view_offset = (self.racers[self.winner_index].x - self.x_view_offset_threshold) if (self.racers[self.winner_index].x >= self.x_view_offset_threshold) else 0
+        self.x_view_offset = (self.winner.x - self.x_view_offset_threshold) if (self.winner.x >= self.x_view_offset_threshold) else 0
         # self.fastest_racer_index = self.racers.index(max(self.racers, key=lambda x: x.x))
         # self.determine_winner()
 
