@@ -37,6 +37,9 @@ def main():
     # g = graphics.Grass(0, 0)
     # d = graphics.Dirt(64, 0)
 
+    # Separate pygame terminal output
+    print("=" * 20)
+
     race_1 = utilities.Race(800)
     print(f"race_1 Distance: {race_1.distance}")
     race_1.start_race(5, 0, ground.top_layer_height)
