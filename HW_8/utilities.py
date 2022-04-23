@@ -2,24 +2,12 @@ from random import randint, uniform
 import pygame
 
 import graphics
+from colors import COLORS
 from text import render_text
 
 # Screen Information 16/9 aspect ratio
 SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
 SCREEN_HEIGHT = graphics.Texture.SCALED_RESOLUTION[1] * 9
-
-COLORS = {
-    "red": (255, 0, 0),
-    "orange": (255, 127, 0),
-    "yellow": (255, 255, 0),
-    "green": (0, 255, 0),
-    "blue": (0, 0, 255),
-    "indigo": (75, 0, 130),
-    "violet": (148, 0, 211),
-    "white": (255, 255, 255),
-    "grey": (128, 128, 128),
-    "black": (0, 0, 0)
-}
 
 class Player:
     def __init__(self, name, x, y, color) -> None:
