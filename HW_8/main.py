@@ -30,7 +30,7 @@ pygame.display.set_caption("HW 8")
 
 def main():
     # Separate pygame terminal output
-    print("=" * 20)
+    # print("=" * 20)
 
 
     # Add one extra block to the right to compensate for transformations
@@ -44,6 +44,7 @@ def main():
     ########################################
 
     race_1 = utilities.Race(800)
+    print("=" * 10, f" race_1 Part 1 ", "=" * 10, sep="")
     print(f"race_1 Distance: {race_1.distance}")
     race_1.start_race(5, 0, ground.top_layer_height)
     race_1_pt1_ongoing = True
