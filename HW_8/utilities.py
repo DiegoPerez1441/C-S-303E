@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from random import randint, uniform
 import pygame
 
@@ -5,12 +7,14 @@ import graphics
 from colors import COLORS
 from text import render_text
 
+_Color = Tuple[int, int, int]
+
 # Screen Information 16/9 aspect ratio
 SCREEN_WIDTH = graphics.Texture.SCALED_RESOLUTION[0] * 16
 SCREEN_HEIGHT = graphics.Texture.SCALED_RESOLUTION[1] * 9
 
 class Player:
-    def __init__(self, name, x, y, color) -> None:
+    def __init__(self, name: str, x: int, y: int, color: _Color) -> None:
         self.name = f"{name}"
         self.speed = randint(2, 10)
         self.max_distance = uniform(500, 1000)
@@ -27,7 +31,7 @@ class Player:
         self.tx = self.x + self.x_offset
         self.ty = self.y + self.y_offset
 
-    def update(self, surface):
+    def update(self, surface: pygame.surface.Surface) -> None:
         if (self.can_run and self.x < self.max_distance):
             self.x += self.speed
         else:
@@ -41,7 +45,7 @@ class Player:
 class Race:
     FINISH_LINE_RESOLUTION = (int(graphics.Texture.SCALED_RESOLUTION[0] / 2), int(graphics.Texture.SCALED_RESOLUTION[1] / 2))
 
-    def __init__(self, distance) -> None:
+    def __init__(self, distance: int) -> None:
         self.distance = distance
 
         self.racers = []
@@ -54,7 +58,7 @@ class Race:
         self.x_view_offset = 0
         self.x_view_offset_threshold = SCREEN_WIDTH * 0.5
 
-    def start_race(self, racers, x, y):
+    def start_race(self, num_racers: int, x: int, y: int) -> None:
         # Reset
         self.racers = []
         self.winner = None
@@ -66,7 +70,7 @@ class Race:
         self.x_view_offset = 0
 
         color_keys = list(COLORS)
-        for i in range(racers):
+        for i in range(num_racers):
             self.racers.append(Player(f"Player {i}", x, y, COLORS[color_keys[i % len(COLORS)]]))
         
         # Print out the details (name, speed, max distance) of each racer
@@ -74,7 +78,7 @@ class Race:
             racer = self.racers[i]
             print(f"{racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance}")
 
-    def determine_winner(self):
+    def determine_winner(self) -> None:
         max_speed = None
         for i in range(len(self.racers)):
             racer = self.racers[i]
@@ -84,7 +88,7 @@ class Race:
                     max_speed = racer.speed
                     self.winner = racer
 
-    def leaderboard_update(self, surface):
+    def leaderboard_update(self, surface: pygame.surface.Surface) -> None:
         # If racers are still competing
         if ((len(self.stopped_racers) != len(self.racers)) and (not self.race_finished)):
             for i in range(len(self.racers)):
@@ -146,7 +150,7 @@ class Race:
                 pygame.draw.rect(surface, racer.color, (x + 20, y, 10, 10))
                 render_text(surface, f" {racer.name} Speed: {racer.speed} Max Distance: {racer.max_distance:0.2f}", x + 30, y, (255, 0, 0))
 
-    def update(self, surface, finishline_y, depth):
+    def update(self, surface: pygame.surface.Surface, finishline_y: int, depth: int) -> None:
         if (self.winner == None):
             # Track leading racer
             lead_racer = max(self.racers, key=lambda x: x.x)
