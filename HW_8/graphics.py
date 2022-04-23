@@ -124,7 +124,7 @@ class Log_Oak(Block):
 class Leaves_Oak(Block):
     INDEX = (1, 1)
     tmp_surface = pygame.Surface((Texture.RESOLUTION[0], Texture.RESOLUTION[1]))
-    tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
+    # tmp_surface.fill((255, 0, 0)) # [DEBUG]: Color tmp_surface red upon init
 
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)

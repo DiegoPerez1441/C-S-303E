@@ -45,7 +45,7 @@ def main():
     print(f"Winner: {race_1.racers[race_1.winner_index].name}")
 
     while True:
-        pygame.display.update()
+        # pygame.display.update()
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
