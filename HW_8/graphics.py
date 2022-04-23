@@ -151,6 +151,7 @@ class Tree_Oak():
     ]
 
     def __init__(self, x: int, y: int) -> None:
+        # Bottom left x, y
         self.x = x
         self.y = y
 
@@ -160,7 +161,7 @@ class Tree_Oak():
             for j in range(len(Tree_Oak.SHAPE)):
                 obj = Tree_Oak.SHAPE[j][i]
                 pos_x = x + (i * Texture.SCALED_RESOLUTION[0])
-                pos_y = y + (j * Texture.SCALED_RESOLUTION[1])
+                pos_y = (y + (j * Texture.SCALED_RESOLUTION[1])) - (len(Tree_Oak.SHAPE) * Texture.SCALED_RESOLUTION[1])
 
                 if (obj == "l"):
                     self.blocks.append(Leaves_Oak(pos_x, pos_y))

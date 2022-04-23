@@ -31,7 +31,7 @@ def main():
     # Add one extra block to the right to compensate for transformations
     ground = graphics.Floor(int(SCREEN_WIDTH/graphics.Texture.SCALED_RESOLUTION[0] + 1), 2, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-    tree1 = graphics.Tree_Oak(0, 0)
+    tree1 = graphics.Tree_Oak(0, ground.top_layer_height)
 
     # Testing
     # g = graphics.Grass(0, 0)
@@ -61,7 +61,7 @@ def main():
         # Draw here
         ground.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
         tree1.draw(DISPLAY_SURF, race_1.x_view_offset, 0)
-        
+
         race_1.update(DISPLAY_SURF, ground.top_layer_height, ground.depth)
 
 
